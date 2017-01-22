@@ -1,0 +1,88 @@
+{
+  "Cucumber Features": {
+    "coverage": {
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/models/location.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/controllers/locations_controller.rb": [
+        1,
+        1,
+        1,
+        2,
+        1,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/controllers/application_controller.rb": [
+        1,
+        1,
+        null,
+        null,
+        1,
+        null
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/channels/application_cable/channel.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/channels/application_cable/connection.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/helpers/application_helper.rb": [
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/helpers/locations_helper.rb": [
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/jobs/application_job.rb": [
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/mailers/application_mailer.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/models/application_record.rb": [
+        0,
+        0,
+        0
+      ],
+      "/Users/georgeheap/projects/wegotcoders/kweek11/Places/app/models/user.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1484920975
+  }
+}

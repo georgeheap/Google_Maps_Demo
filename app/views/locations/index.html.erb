@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div class="header">
+      <h1>Google Maps Demo</h1>
+    </div>
+    <div id="locationForm">
+      <button type="button" id="btnClose" class="close">X</button><br/>
+      <span id="lat"></span>, <span id="lng"></span><br/>
+      Add a new location:<br/>
+      <textarea id="notes"></textarea><br/>
+      <select id="marker_type">
+        <option value="interesting">Important Landmark</option>
+        <option value="food">Restaurant</option>
+        <option value="volcano">Volcano</option>
+        <option value="airport">Airport</option>
+      </select></br>
+      <input type="button" id="btnSubmit" value="DO IT!" /><br/>
+
+    </div>
+    <div id="map"></div>
+    <script>
+      var iconBase = 'https://maps.gstatic.com/mapfiles/ms2/micons/';
+      var icons = {
+        interesting: {
+          icon: iconBase + 'blue-pushpin.png'
+        },
+        food: {
+          icon: iconBase + 'restaurant.png'
+        },
+        volcano: {
+          icon: iconBase + 'volcano.png'
+        },
+        airport: {
+          icon: iconBase + 'plane.png'
+        }
+      };
+      function initMap() {
+        var lat;
+        var lng;
+        var markers = [];
+
+
+        var center = {lat: 51.755552, lng: -0.010046}
+
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          center: center,
+        });
+
+        map.addListener("idle", function () {
+          var bounds = map.getBounds();
+          console.log(bounds.getNorthEast());
+          var ne = bounds.getNorthEast();
+          var sw = bounds.getSouthWest();
+          console.log(ne.lng(), sw.lng());
+          $.get("<%= locations_path %>.json?nelat=" + ne.lat() + "&nelng=" + ne.lng() + "&swlat=" + sw.lat() + "&swlng=" + sw.lng(),
+          function (locations) {
+            locations.forEach(function (location) {
+              placeMarker({id: location.id, lat: location.lat, lng: location.lng, notes: location.notes, icon: location.icon});
+            });
+          });
+        });
+        var infowindow = new google.maps.InfoWindow();
+        <%= @locations1.to_json.html_safe %>.forEach(function (location) {
+          placeMarker({id: location.id, lat: location.lat, lng: location.lng, notes: location.notes, icon: location.icon});
+        });
+
+        <% if ENV["RAILS_ENV"] == "test" %>
+          window.myMarkers = markers; // For Testing
+        <% end %>
+
+        $('#btnSubmit').click(function (){
+          $.post("<%= locations_path(format: :json)%>",
+            {location: {lat: lat, lng: lng, notes: $("#notes").val(), icon: $("#marker_type").val()},
+              authenticity_token: $("meta[name=csrf-token]").attr("content")},
+            function (location) {
+              placeMarker({id: location.id, lat: location.lat, lng: location.lng, notes: location.notes, icon: location.icon});
+              $("#locationForm").css("display", "none");
+              $("#notes").val("");
+          });
+        });
+        $('#btnClose').click(function () {
+          var form = $("#locationForm");
+          form.css("display", "none");
+        });
+
+        map.addListener('click', function (e){
+          lat = e.latLng.lat();
+          lng = e.latLng.lng();
+          var form = $("#locationForm");
+          form.css("display", "block");
+          // form.fadeIn();
+          form.find("#lat").html(lat.toString());
+          form.find("#lng").html(lng.toString());
+
+        });
+        function placeMarker(latLng) {
+          console.log(latLng);
+          var marker = new google.maps.Marker({
+            id: latLng.id,
+            notes: latLng.notes,
+            icon: (latLng.icon ? icons[latLng.icon].icon : null),
+            position: latLng,
+            map: map
+          });
+          marker.addListener("click", function (){
+            infowindow.setContent(marker.notes);
+            infowindow.open(map, marker);
+          });
+          markers.push(latLng);
+        }
+
+       }
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADZYQkmRjQFHgSAtvr61Bv5pbWqp6Mi2E&callback=initMap">
+    </script>
+  </body>
+</html>
